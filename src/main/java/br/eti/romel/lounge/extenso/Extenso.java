@@ -11,65 +11,33 @@ public class Extenso {
     private static final String CONECTOR     = " e ";
     private static final String SEPARADOR    = ", ";
     private static final String QUALIFICADOR = " de";
-
     private final static String[][] decimais = {
         { "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos" },
         { "dez",   "vinte",    "trinta",    "quarenta",     "cinquenta",  "sessenta",   "setenta",    "oitenta",    "noventa"    },
         { "um",    "dois",     "três",      "quatro",       "cinco",      "seis",       "sete",       "oito",       "nove",
           "onze",  "doze",     "treze",     "quatorze",     "quinze",     "dezesseis",  "dezessete",  "dezoito",    "dezenove"   }
     };
-
     private final static String[][] multiplos = {
-        { "vigesilhão",     "vigesilhões"     },
-        { "novedecilhão",   "novedecilhões"   },
-        { "octodecilhão",   "octodecilhões"   },
-        { "setedecilhão",   "setedecilhões"   },
-        { "sexdecilhão",    "sexdecilhões"    },
-        { "quindecilhão",   "quindecilhões"   },
-        { "quatordecilhão", "quatordecilhões" },
-        { "tredecilhão",    "tredecilhões"    },
-        { "duodecilhão",    "duodecilhões"    },
-        { "undecilhão",     "undecilhões"     },
-        { "decilhão",       "decilhões"       },
-        { "nonilhão",       "nonilhões"       },
-        { "octilhão",       "octilhões"       },
-        { "septilhão",      "septilhões"      },
-        { "sextilhão",      "sextilhões"      },
-        { "quintilhão",     "quintilhões"     },
-        { "quatrilhão",     "quatrilhões"     },
-        { "trilhão",        "trilhões"        },
-        { "bilhão",         "bilhões"         },
-        { "milhão",         "milhões"         },
-        { "mil",            "mil"             },
-        { "real",           "reais"           },
-        { "centavo",        "centavos"        }
+        { "vigesilhão",     "vigesilhões"     }, { "novedecilhão",   "novedecilhões"   }, { "octodecilhão",   "octodecilhões"   },
+        { "setedecilhão",   "setedecilhões"   }, { "sexdecilhão",    "sexdecilhões"    }, { "quindecilhão",   "quindecilhões"   },
+        { "quatordecilhão", "quatordecilhões" }, { "tredecilhão",    "tredecilhões"    }, { "duodecilhão",    "duodecilhões"    },
+        { "undecilhão",     "undecilhões"     }, { "decilhão",       "decilhões"       }, { "nonilhão",       "nonilhões"       },
+        { "octilhão",       "octilhões"       }, { "septilhão",      "septilhões"      }, { "sextilhão",      "sextilhões"      },
+        { "quintilhão",     "quintilhões"     }, { "quatrilhão",     "quatrilhões"     }, { "trilhão",        "trilhões"        },
+        { "bilhão",         "bilhões"         }, { "milhão",         "milhões"         }, { "mil",            "mil"             },
+        { "real",           "reais"           }, { "centavo",        "centavos"        }
     };
-
     private static final int CASAS    = multiplos.length * 3;
     private static final int CENTAVOS = multiplos.length - 1;
     private static final int MOEDA    = multiplos.length - 2;
     private static final int MILHAR   = multiplos.length - 3;
-
     private BigDecimal valor;
 
-    public Extenso() {
-    }
-
-    public Extenso(BigDecimal valor) {
-        this.valor = valor;
-    }
-
-    public Extenso(Double valor) {
-        this(new BigDecimal(valor));
-    }
-
-    public Extenso(Float valor) {
-        this(new BigDecimal(valor));
-    }
-
-    public Extenso(Integer valor) {
-        this(new BigDecimal(valor));
-    }
+    public Extenso() {}
+    public Extenso(BigDecimal valor) { this.valor = valor;          }
+    public Extenso(Double     valor) { this(new BigDecimal(valor)); }
+    public Extenso(Float      valor) { this(new BigDecimal(valor)); }
+    public Extenso(Integer    valor) { this(new BigDecimal(valor)); }
 
     public void setValor(BigDecimal valor) { this.valor = valor; }
     public void setValor(Double valor)     { this.valor = new BigDecimal(valor); }
@@ -79,21 +47,17 @@ public class Extenso {
     @Override
     public String toString() {
         final String formatado  = String.format("%0" + Extenso.CASAS + ".2f", valor).replace(",", "0").replace(".", "0");
-        final int centavos      = Integer.parseInt(formatado.substring(formatado.length()-3));
-        boolean casoEspecialMil = false;
-        int ultimaGrandeza      = 0;
+        final Integer centavos  = Integer.parseInt(formatado.substring(formatado.length()-3));
+        Boolean casoEspecialMil = false;
+        Integer ultimaGrandeza  = 0;
         String extenso          = "";
-        String classe;
-        int proximos;
-        int valorAbsoluto;
-        int grau;
 
         for (int grandeza = 0; grandeza < multiplos.length; ++grandeza) {
-            classe = formatado.substring(grandeza * 3, grandeza * 3 + 3);
+            String classe = formatado.substring(grandeza * 3, grandeza * 3 + 3);
 
             if (Integer.parseInt(classe) > 0) {
                 casoEspecialMil = casoEspecialMil || Integer.parseInt(classe) == 1 && (grandeza == MILHAR);
-                grau = Integer.parseInt(classe) > 1 ? 1 : 0;
+                Integer grau = Integer.parseInt(classe) > 1 ? 1 : 0;
                 ultimaGrandeza = grandeza;
                 
                 if (!extenso.isEmpty()) {
@@ -101,19 +65,14 @@ public class Extenso {
                 }
 
                 for (int valorRelativo = 0; valorRelativo < classe.length(); ++valorRelativo) {
-                    valorAbsoluto = Integer.parseInt(classe.substring(valorRelativo, valorRelativo + 1));
-
+                    Integer valorAbsoluto = Integer.parseInt(classe.substring(valorRelativo, valorRelativo + 1));
                     if (valorAbsoluto > 0) {
-                        proximos = (valorRelativo < 2) ? Integer.parseInt(classe.substring(valorRelativo + 1, 3)) : 0;
+                        Integer proximos = (valorRelativo < 2) ? Integer.parseInt(classe.substring(valorRelativo + 1, 3)) : 0;
                         if ("100".equals(classe)) {
                             extenso += "cem";
                             valorRelativo += 2;
                         } else if (extenso.isEmpty() && casoEspecialMil) {
-                            /*
-                             * NOTA: No caso específico de 1.000,
-                             *       diz-se: "mil reais", ao invés do usual
-                             *       esperado: "um mil reais".
-                             */
+                            // NOTA: No caso específico de 1.000, diz-se: "mil reais", ao invés do usual esperado: "um mil reais".
                         } else if (valorAbsoluto == 1 && valorRelativo == 1 && proximos > 0) {
                             extenso += decimais[++valorRelativo][proximos + 8];
                         } else {
@@ -130,11 +89,5 @@ public class Extenso {
         }
 
         return extenso;
-    }
-
-    public String toStringFormatted() {
-        String extenso = toString();
-
-        return Character.toUpperCase(extenso.charAt(0)) + extenso.substring(1) + ".";
     }
 }
