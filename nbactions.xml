@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>CUSTOM-Nova versao</actionName>
+        <displayName>Nova versao</displayName>
+        <goals>
+            <goal>release:prepare</goal>
+            <goal>--batch-mode</goal>
+            <goal>release:perform</goal>
+        </goals>
+    </action>
+</actions>
