@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
- * @author Carlos Romel <carlos.romel@gmail.com>
+ * @author <a href="carlos.romel@gmail.com">Carlos Romel</a>
  */
 public class DezenasTest {
 
