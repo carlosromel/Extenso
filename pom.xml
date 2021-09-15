@@ -49,7 +49,7 @@
     </distributionManagement>
 
     <scm>
-        <connection>scm:git:https://carlosromel@github.com/carlosromel/Extenso.git</connection>
+        <connection>scm:git:git@github.com:carlosromel/Extenso.git</connection>
         <developerConnection>scm:git:git@github.com:carlosromel/Extenso.git</developerConnection>
         <url>https://github.com/carlosromel/Extenso.git</url>
         <tag>Extenso-1.2</tag>
